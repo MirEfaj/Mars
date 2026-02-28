@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ostad_tm/ui/screens/sign_in_screen.dart';
 import 'package:ostad_tm/ui/widgets/screen_background.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -156,7 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onTapLogInButton(){
-      Navigator.pop(context);
+      Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate)=> false);
   }
 
   @override

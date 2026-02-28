@@ -5,6 +5,7 @@ import 'package:ostad_tm/ui/screens/sign_up_screen.dart';
 import 'package:ostad_tm/ui/widgets/screen_background.dart';
 
 import 'forgot_password_email_screen.dart';
+import 'main_nav_bar_holder.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -113,6 +114,7 @@ class _SignInScreenState extends State<SignInScreen> {
     if(_forKey.currentState!.validate()){
       // to do sign in
     }
+    Navigator.pushNamedAndRemoveUntil(context, MainNavBarHolder.name, (predicate)=> false);
   }
 
   @override
