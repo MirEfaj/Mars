@@ -1,0 +1,63 @@
+import 'package:flutter/material.dart';
+import 'package:ostad_tm/ui/screens/change_password_screen.dart';
+import 'package:ostad_tm/ui/screens/forgot_password_email_screen.dart';
+import 'package:ostad_tm/ui/screens/pin_verification_screen.dart';
+import 'package:ostad_tm/ui/screens/sign_in_screen.dart';
+import 'package:ostad_tm/ui/screens/sign_up_screen.dart';
+import 'package:ostad_tm/ui/screens/splash_screen.dart';
+
+class TaskManagerApp extends StatelessWidget {
+  const TaskManagerApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Task Manager',
+      theme: ThemeData(
+  //      primarySwatch: Colors.green,
+        colorSchemeSeed: Colors.green,
+        textTheme: TextTheme(titleLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.w700)),
+
+        inputDecorationTheme: InputDecorationTheme(
+          hintStyle: TextStyle(color: Colors.grey),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+          fillColor: Colors.white,
+          filled: true,
+          border: OutlineInputBorder( borderSide: BorderSide.none),
+          enabledBorder: OutlineInputBorder( borderSide: BorderSide.none),
+          errorBorder: OutlineInputBorder( borderSide: BorderSide.none),
+          focusedBorder: OutlineInputBorder( borderSide: BorderSide.none),
+        ),
+
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              fixedSize: Size.fromWidth(double.maxFinite),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.circular(10)
+              ),
+              padding:EdgeInsets.symmetric(vertical: 5),
+              backgroundColor: Colors.green,
+              foregroundColor: Colors.white
+          ),
+           ),
+
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.green
+          )
+        )
+      ),
+      home: const SplashScreen(),
+      initialRoute: SplashScreen.name,
+      routes: {
+        SplashScreen.name : (context)=> SplashScreen(),
+        SignInScreen.name : (context)=> SignInScreen(),
+        SignUpScreen.name : (context)=> SignUpScreen(),
+        ForgotPasswordEmailScreen.name : (context)=> ForgotPasswordEmailScreen(),
+        PinVerificationScreen.name : (context)=> PinVerificationScreen(),
+        ChangePasswordScreen.name : (context)=> ChangePasswordScreen(),
+      },
+    );
+  }
+}
