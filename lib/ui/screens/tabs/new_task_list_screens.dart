@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/task_card.dart';
+import '../../screens/tabs/add_new_task_screen.dart';
 import '../../widgets/task_count_summary.dart';
 
 class NewTaskListScreens extends StatelessWidget {
@@ -37,13 +38,13 @@ class NewTaskListScreens extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: _onTapAddNewTaskButton, child: Icon(Icons.add),),
+      floatingActionButton: FloatingActionButton(onPressed: ()=> _onTapAddNewTaskButton(context), child: Icon(Icons.add),),
     );
   }
 
 
-  void _onTapAddNewTaskButton(){
-
+  void _onTapAddNewTaskButton(context){
+    Navigator.pushNamed(context, AddNewTaskScreen.name);
   }
 }
 

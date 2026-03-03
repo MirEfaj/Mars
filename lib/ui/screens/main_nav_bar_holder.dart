@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ostad_tm/ui/screens/screens/new_task_list_screens.dart';
-import 'package:ostad_tm/ui/screens/screens/progress_task_list_screens.dart';
-import 'package:ostad_tm/ui/screens/screens/completed_task_list_screens.dart';
-import 'package:ostad_tm/ui/screens/screens/cancelled_task_list_screens.dart';
-
+import 'package:ostad_tm/ui/screens/tabs/cancelled_task_list_screens.dart';
+import 'package:ostad_tm/ui/screens/tabs/progress_task_list_screens.dart';
+import 'package:ostad_tm/ui/screens/tabs/new_task_list_screens.dart';
+import 'package:ostad_tm/ui/screens/tabs/completed_task_list_screens.dart';
 import '../widgets/tm_app_bar.dart';
 
 class MainNavBarHolder extends StatefulWidget {

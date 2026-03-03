@@ -3,16 +3,21 @@ import 'package:ostad_tm/ui/screens/forgot_password_email_screen.dart';
 import 'package:ostad_tm/ui/screens/main_nav_bar_holder.dart';
 import 'package:ostad_tm/ui/screens/pin_verification_screen.dart';
 import 'package:ostad_tm/ui/screens/sign_in_screen.dart';
+import 'package:ostad_tm/ui/screens/update_profile_screen.dart';
 import 'package:ostad_tm/ui/screens/sign_up_screen.dart';
 import 'package:ostad_tm/ui/screens/splash_screen.dart';
+import 'package:ostad_tm/ui/screens/tabs/add_new_task_screen.dart';
 import 'package:flutter/material.dart';
 
 class TaskManagerApp extends StatelessWidget {
   const TaskManagerApp({super.key});
 
+  static final GlobalKey<NavigatorState> navigator = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigator,
       debugShowCheckedModeBanner: false,
       title: 'Task Manager',
       theme: ThemeData(
@@ -59,6 +64,8 @@ class TaskManagerApp extends StatelessWidget {
         PinVerificationScreen.name : (context)=> PinVerificationScreen(),
         ChangePasswordScreen.name : (context)=> ChangePasswordScreen(),
         MainNavBarHolder.name : (context)=> MainNavBarHolder(),
+        AddNewTaskScreen.name : (context)=> AddNewTaskScreen(),
+        UpdateProfileScreen.name : (context)=> UpdateProfileScreen(),
       },
     );
   }

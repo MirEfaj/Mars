@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_tm/ui/screens/sign_in_screen.dart';
+import 'package:ostad_tm/ui/screens/update_profile_screen.dart';
+import 'package:ostad_tm/app.dart';
 
 class TMAppBar extends StatefulWidget implements PreferredSizeWidget{
   const TMAppBar({
@@ -21,7 +23,9 @@ class _TMAppBarState extends State<TMAppBar> {
       backgroundColor: Colors.green,
       title: Row(
         children: [
-          CircleAvatar(),
+          GestureDetector(
+              onTap: onTapProfileBar,
+              child: CircleAvatar()),
           SizedBox(width: 10,),
           Column(
             crossAxisAlignment: .start,
@@ -40,5 +44,10 @@ class _TMAppBarState extends State<TMAppBar> {
     Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate)=> false);
   }
 
+
+  void onTapProfileBar(){
+    // if(TaskManagerApp.navigator.currentState)
+    Navigator.pushNamed(context, UpdateProfileScreen.name);
+  }
 
 }
