@@ -29,7 +29,9 @@ class NewTaskListScreens extends StatelessWidget {
               child: ListView.builder(
                   itemCount: 10,
                   itemBuilder: (context, index){
-                    return TaskCard();
+                    return TaskCard(
+                        taskType: TaskType.tNew
+                    );
                   }),
             )
           ],

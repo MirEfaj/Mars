@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:ostad_tm/ui/screens/change_password_screen.dart';
 import 'package:ostad_tm/ui/screens/forgot_password_email_screen.dart';
 import 'package:ostad_tm/ui/screens/main_nav_bar_holder.dart';
@@ -6,6 +5,7 @@ import 'package:ostad_tm/ui/screens/pin_verification_screen.dart';
 import 'package:ostad_tm/ui/screens/sign_in_screen.dart';
 import 'package:ostad_tm/ui/screens/sign_up_screen.dart';
 import 'package:ostad_tm/ui/screens/splash_screen.dart';
+import 'package:flutter/material.dart';
 
 class TaskManagerApp extends StatelessWidget {
   const TaskManagerApp({super.key});

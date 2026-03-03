@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
 import '../../widgets/task_card.dart';
-import '../../widgets/task_count_summary.dart';
 
-class ProgressTaskListScreens extends StatelessWidget {
-  const ProgressTaskListScreens({super.key});
+
+class CompletedTaskListScreens extends StatelessWidget {
+  const CompletedTaskListScreens({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class ProgressTaskListScreens extends StatelessWidget {
                 itemCount: 10,
                 itemBuilder: (context, index){
                   return TaskCard(
-                      taskType: TaskType.progress
+                      taskType: TaskType.completed
                   );
                 }),
           )
