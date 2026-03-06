@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ostad_tm/ui/screens/sign_in_screen.dart';
 import 'package:ostad_tm/ui/widgets/screen_background.dart';
 import '../widgets/tm_app_bar.dart';
@@ -21,6 +22,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final TextEditingController _mobileTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _forKey = GlobalKey<FormState>();
+  final ImagePicker _imagePicker = ImagePicker();
+  XFile? _selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -164,6 +167,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               ),
               child: Text("Photo",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),),
             ),
+            SizedBox(width: 10,),
+            Text( _selectedImage == null ? "Select Image" : _selectedImage!.name,  maxLines: 1,style: TextStyle(
+              overflow: TextOverflow.ellipsis
+            ),)
 
           ],
         ),
@@ -171,8 +178,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     );
   }
 
-  void _onTapPhotoPicker(){
-
+  Future<void> _onTapPhotoPicker() async{
+     final XFile? pickImage = await _imagePicker.pickImage(source: ImageSource.camera);
+     if(pickImage != null){
+       _selectedImage = pickImage;
+       setState(() {  });
+     }
   }
   @override
   void dispose() {
