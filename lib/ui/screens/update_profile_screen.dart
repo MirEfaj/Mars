@@ -38,6 +38,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   SizedBox(height: 80,),
                   Text("Profile Update",style: Theme.of(context).textTheme.titleLarge,),
                   SizedBox(height: 20,),
+                  _buildPhotoPicker(),
+                  const SizedBox(height: 10,),
                   TextFormField(
                     controller: _emailTEController,
                     textInputAction: TextInputAction.next,
@@ -140,7 +142,38 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
 
+  Widget _buildPhotoPicker(){
+    return GestureDetector(
+      onTap: _onTapPhotoPicker,
+      child: Container(
+        height: 50,
+        width: double.maxFinite,
+        color: Colors.white,
+        child: Row(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              height: 50,
+              width: 100,
+              decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                  )
+              ),
+              child: Text("Photo",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),),
+            ),
 
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _onTapPhotoPicker(){
+
+  }
   @override
   void dispose() {
    _emailTEController.dispose();
