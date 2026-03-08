@@ -1,8 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ostad_tm/data/service/network_caller.dart';
 import 'package:ostad_tm/ui/screens/sign_in_screen.dart';
 import 'package:ostad_tm/ui/widgets/screen_background.dart';
+import 'package:ostad_tm/ui/widgets/show_snack_bar_msg.dart';
+
+import '../../data/urls.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -20,6 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _mobileTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _forKey = GlobalKey<FormState>();
+  bool _signUpInProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       hintText: "First Name",
                     ),
                     validator: (String? value){
-                      if((value?.length ?? 0) <=6 ){
+                      if((value?.length ?? 0) <=3 ){
                         return "Enter your First Name";
                       }
                       return null;
@@ -78,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       hintText: "Last Name",
                     ),
                     validator: (String? value) {
-                      if ((value?.length ?? 0) <= 6) {
+                      if ((value?.length ?? 0) <= 3) {
                         return "Enter your Last Name";
                       }
                       return null;
@@ -117,9 +122,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   SizedBox(height: 10,),
-                  ElevatedButton(
-                    onPressed: _onTapSignUpButton,
-                    child: Icon(Icons.arrow_circle_right_outlined, size: 20,),
+                  Visibility(
+                    visible: _signUpInProgress == false,
+                    replacement: Center(child: CircularProgressIndicator(),),
+                    child: ElevatedButton(
+                      onPressed: _onTapSignUpButton,
+                      child: Icon(Icons.arrow_circle_right_outlined, size: 20,),
+                    ),
                   ),
                   SizedBox(height: 32,),
 
@@ -152,13 +161,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _onTapSignUpButton(){
     if(_forKey.currentState!.validate()){
-      // to do sign in
+      _signUp();
     }
+  }
+
+  Future<void> _signUp() async{
+    _signUpInProgress = true;
+    setState(() {   });
+    Map<String, dynamic> requestBody = {
+      "email": _emailTEController.text.trim(),
+      "firstName":_firstTEController.text.trim(),
+      "lastName":_lastTEController.text.trim(),
+      "mobile":_mobileTEController.text.trim(),
+      "password":_passwordTEController.text
+    };
+    NetworkResponse response = await NetworkCaller.postRequest(
+      url: Urls.registration,
+      body: requestBody
+    );
+    if(response.isSuccess){
+      Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate)=> false);
+        showSnackBarMessage(context, "Successfully registration completed, Please log-In");
+        _cleatTextFields();
+    }else{
+      showSnackBarMessage(context, response.errorMessage!);
+    }
+    _signUpInProgress = false;
+    setState(() {   });
+
   }
 
   void _onTapLogInButton(){
       Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate)=> false);
   }
+
+  void _cleatTextFields(){
+    _emailTEController.clear();
+    _passwordTEController.clear();
+    _firstTEController.clear();
+    _lastTEController.clear();
+    _mobileTEController.clear();
+}
 
   @override
   void dispose() {
