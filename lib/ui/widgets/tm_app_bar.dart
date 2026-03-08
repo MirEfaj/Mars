@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_tm/ui/controllers/auth_controller.dart';
 import 'package:ostad_tm/ui/screens/sign_in_screen.dart';
 import 'package:ostad_tm/ui/screens/update_profile_screen.dart';
 import 'package:ostad_tm/app.dart';
@@ -30,8 +31,8 @@ class _TMAppBarState extends State<TMAppBar> {
           Column(
             crossAxisAlignment: .start,
             children: [
-              Text("Md Efaj Alam", style: TextStyle(fontSize: 14, fontWeight: .w500 , color: Colors.white),),
-              Text("mdefaj25@gmail.com", style: TextStyle(fontSize: 12, fontWeight: .w400 , color: Colors.white),),
+              Text(AuthController.userModel!.fullName, style: TextStyle(fontSize: 14, fontWeight: .w500 , color: Colors.white),),
+              Text(AuthController.userModel!.email, style: TextStyle(fontSize: 12, fontWeight: .w400 , color: Colors.white),),
             ],
           ),
           Spacer(),
@@ -40,7 +41,8 @@ class _TMAppBarState extends State<TMAppBar> {
       ),);
   }
 
-  void onTapLogoutButton(){
+  Future<void> onTapLogoutButton() async{
+    await AuthController.clearData();
     Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate)=> false);
   }
 

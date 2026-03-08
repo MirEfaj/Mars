@@ -1,9 +1,14 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ostad_tm/data/models/user_model.dart';
+import 'package:ostad_tm/data/service/network_caller.dart';
+import 'package:ostad_tm/ui/controllers/auth_controller.dart';
 import 'package:ostad_tm/ui/screens/sign_up_screen.dart';
 import 'package:ostad_tm/ui/widgets/screen_background.dart';
-
+import 'package:ostad_tm/ui/widgets/show_snack_bar_msg.dart';
+import '../../data/urls.dart';
+import '../widgets/centered_circular_prosgress_indicator.dart';
 import 'forgot_password_email_screen.dart';
 import 'main_nav_bar_holder.dart';
 
@@ -20,6 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _forKey = GlobalKey<FormState>();
+  bool _logInProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +74,13 @@ class _SignInScreenState extends State<SignInScreen> {
                     },
                   ),
                   SizedBox(height: 10,),
-                  ElevatedButton(
-                    onPressed: _onTapLogInButton,
-                    child: Icon(Icons.arrow_circle_right_outlined, size: 20,),
+                  Visibility(
+                    visible: _logInProgress == false,
+                    replacement: CenteredCircularProgressIndicator(),
+                    child: ElevatedButton(
+                      onPressed: _onTapLogInButton,
+                      child: Icon(Icons.arrow_circle_right_outlined, size: 20,),
+                    ),
                   ),
                   SizedBox(height: 32,),
                   TextButton(onPressed: _onTapForgotButton, child: Text('Forgot Password',style: TextStyle(color: Colors.grey),)),
@@ -112,10 +122,33 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _onTapLogInButton(){
     if(_forKey.currentState!.validate()){
-      // to do sign in
+      _signIn();
     }
-    Navigator.pushNamedAndRemoveUntil(context, MainNavBarHolder.name, (predicate)=> false);
   }
+
+  Future<void> _signIn() async{
+    _logInProgress == true;
+    setState(() {   });
+    Map<String , dynamic> requestBody ={
+      "email" : _emailTEController.text.trim(),
+      "password" : _passwordTEController.text
+    };
+    NetworkResponse response = await NetworkCaller.postRequest(url: Urls.logIn, body: requestBody);
+    if(response.isSuccess){
+      UserModel userModel = UserModel.fromJson(response.body!["data"]);
+      String token = response.body!["token"];
+      await AuthController.saveUserData(userModel, token);
+
+      Navigator.pushNamedAndRemoveUntil(context, MainNavBarHolder.name, (predicate)=> false);
+    }else{
+      showSnackBarMessage(context, response.errorMessage!);
+    }
+    _logInProgress == false;
+    setState(() {   });
+  }
+
+
+
 
   @override
   void dispose() {
