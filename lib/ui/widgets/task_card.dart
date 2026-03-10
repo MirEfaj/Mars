@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart' ;
+import 'package:ostad_tm/data/models/task_model.dart';
 
 enum TaskType{ tNew , progress, completed , cancelled}
 
 class TaskCard extends StatelessWidget {
-  const TaskCard({super.key, required this.taskType,});
+  const TaskCard({super.key, required this.taskType, required this.taskModel,});
   final TaskType taskType;
+  final TaskModel taskModel;
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +17,9 @@ class TaskCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: .start,
             children: [
-              Text("Title will be here", style: Theme.of(context).textTheme.titleLarge,),
-              Text("Description"),
-              Text("Date : 12/120/2026", style: TextStyle(color: Colors.black54),),
+              Text(taskModel.title, style: Theme.of(context).textTheme.titleLarge,),
+              Text(taskModel.description),
+              Text("Date : ${taskModel.createdDate}", style: TextStyle(color: Colors.black54),),
               Row(
                 children: [
                   Chip(label: Text(_getTaskTypeName(),style: TextStyle( color: Colors.white),),
