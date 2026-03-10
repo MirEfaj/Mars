@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_tm/data/service/network_caller.dart';
+import 'package:ostad_tm/ui/widgets/centered_circular_prosgress_indicator.dart';
 import 'package:ostad_tm/ui/widgets/screen_background.dart';
+import 'package:ostad_tm/ui/widgets/show_snack_bar_msg.dart';
 import 'package:ostad_tm/ui/widgets/tm_app_bar.dart';
+
+import '../../../data/urls.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
   const AddNewTaskScreen({super.key});
@@ -15,7 +20,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
   TextEditingController _titleTEController = TextEditingController();
   TextEditingController _descriptionTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  bool _inProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +64,10 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  ElevatedButton(onPressed: _onTapAddTsk, child: Text("Add Task")),
+                  Visibility(
+                      visible: _inProgress == false,
+                      replacement: CenteredCircularProgressIndicator(),
+                      child: ElevatedButton(onPressed: _onTapAddTsk, child: Text("Add Task"))),
 
                 ],
               ),
@@ -71,8 +79,29 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
 
   void _onTapAddTsk(){
     if(_formKey.currentState!.validate()){
-      Navigator.pop(context);
+      _addNewTask();
+     Navigator.pop(context);
     }
+  }
+
+  Future<void> _addNewTask() async{
+    _inProgress = true;
+    setState(() {  });
+    Map<String, dynamic> requestBody ={
+      "title":_titleTEController.text.trim(),
+      "description":_descriptionTEController.text.trim(),
+      "status":"New"
+    };
+    NetworkResponse response = await NetworkCaller.postRequest(url: Urls.createNewTask, body: requestBody);
+    if(response.isSuccess){
+        _titleTEController.clear();
+        _descriptionTEController.clear();
+        showSnackBarMessage(context, "Added New Tsk");
+    }else{
+      showSnackBarMessage(context, response.errorMessage!);
+    }
+    _inProgress = false;
+    setState(() {  });
   }
 
   @override

@@ -133,7 +133,7 @@ class _SignInScreenState extends State<SignInScreen> {
       "email" : _emailTEController.text.trim(),
       "password" : _passwordTEController.text
     };
-    NetworkResponse response = await NetworkCaller.postRequest(url: Urls.logIn, body: requestBody);
+    NetworkResponse response = await NetworkCaller.postRequest(url: Urls.logIn, body: requestBody, isFromLogin: true);
     if(response.isSuccess){
       UserModel userModel = UserModel.fromJson(response.body!["data"]);
       String token = response.body!["token"];
