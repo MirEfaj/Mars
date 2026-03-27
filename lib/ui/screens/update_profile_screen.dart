@@ -1,8 +1,6 @@
-import 'package:email_validator/email_validator.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ostad_tm/ui/screens/sign_in_screen.dart';
+import 'package:ostad_tm/ui/controllers/auth_controller.dart';
 import 'package:ostad_tm/ui/widgets/screen_background.dart';
 import '../widgets/tm_app_bar.dart';
 
@@ -16,14 +14,15 @@ class UpdateProfileScreen extends StatefulWidget {
 }
 
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
-  final TextEditingController _emailTEController = TextEditingController();
-  final TextEditingController _firstTEController = TextEditingController();
-  final TextEditingController _lastTEController = TextEditingController();
-  final TextEditingController _mobileTEController = TextEditingController();
+  final TextEditingController _emailTEController = TextEditingController(text: AuthController.userModel?.email ?? "");
+  final TextEditingController _firstTEController = TextEditingController(text: AuthController.userModel?.firstName ?? "");
+  final TextEditingController _lastTEController = TextEditingController(text: AuthController.userModel?.lastName ?? "");
+  final TextEditingController _mobileTEController = TextEditingController(text: AuthController.userModel?.mobile ?? "");
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _forKey = GlobalKey<FormState>();
   final ImagePicker _imagePicker = ImagePicker();
   XFile? _selectedImage;
+  bool _updateProfileInProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,19 +44,20 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   const SizedBox(height: 10,),
                   TextFormField(
                     controller: _emailTEController,
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      hintText: "Email",
-                    ),
-                    validator: (String? value){
-                      String email = value ?? '';
-                      if( EmailValidator.validate(email) == false){
-                        return "Enter valid Email";
-                      }
-                      return null;
-                    },
+                    // textInputAction: TextInputAction.next,
+                    // autovalidateMode: AutovalidateMode.onUserInteraction,
+                    // keyboardType: TextInputType.emailAddress,
+                    enabled: false,
+                    // decoration: InputDecoration(
+                    //   hintText: "Email",
+                    // ),
+                    // validator: (String? value){
+                    //   String email = value ?? '';
+                    //   if( EmailValidator.validate(email) == false){
+                    //     return "Enter valid Email";
+                    //   }
+                    //   return null;
+                    // },
                   ),
                   SizedBox(height: 10,),
                   TextFormField(
@@ -117,8 +117,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       hintText: "Password",
                     ),
                     validator: (String? value){
-                      if((value?.length ?? 0) <=6 ){
-                        return "Enter valid Password";
+                      int length = value?.length ?? 0;
+                      if(length > 0 && length <=6 ){
+                        return "Enter Password more then 6 letters";
                       }
                       return null;
                     },
@@ -185,6 +186,18 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
        setState(() {  });
      }
   }
+
+  Future<void> _updateProfile() async{
+    _updateProfileInProgress = true;
+    if( mounted){
+      setState(() {   });
+    }
+
+
+  }
+
+
+
   @override
   void dispose() {
    _emailTEController.dispose();
